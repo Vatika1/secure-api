@@ -1,0 +1,24 @@
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:secure-api.p12
+    key-store-type: PKCS12
+    key-store-password: changeit
+    key-alias: secure-api
+    client-auth: need
+    trust-store: classpath:server-truststore.p12
+    trust-store-password: changeit
+
+spring:
+  application:
+    name: secure-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/secureapi
+    username: secureapi
+    password: secureapi
+  jpa:
+    hibernate:
+      ddl-auto: none
+jwt:
+  secret: this-is-a-dev-only-secret-key-that-is-at-least-32-bytes
+  expiry-minutes: 15
