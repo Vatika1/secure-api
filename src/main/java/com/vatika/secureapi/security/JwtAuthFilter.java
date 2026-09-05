@@ -20,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    //this class checks the token and validates it. It tells Spring who you are and your role. Only authentication happens here.
+    //it is mainly for second or later requests.
     private final JwtService jwtService;
 
     @Override
