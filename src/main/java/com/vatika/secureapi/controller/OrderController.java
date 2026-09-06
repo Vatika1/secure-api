@@ -1,5 +1,6 @@
 package com.vatika.secureapi.controller;
 
+import com.vatika.secureapi.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -20,6 +21,7 @@ public class OrderController {
     public record Order(long id, String clientId, String item) implements Serializable {}
 
     private final StringRedisTemplate redis;
+    private final OrderService orderService;
 
     private static final List<Order> ORDERS = List.of(
             new Order(1, "acme", "laptop"),
@@ -49,4 +51,13 @@ public class OrderController {
         }
         return ResponseEntity.ok("created");
     }
+
+    @PostMapping("/orders/create")
+    public String create(Authentication authentication, @RequestBody Order order){
+        String clientId = (String) authentication.getDetails();
+        orderService.createOrder(clientId, order.item());
+        return "created";
+    }
+
+
 }
