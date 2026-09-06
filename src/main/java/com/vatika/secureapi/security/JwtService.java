@@ -3,18 +3,24 @@ package com.vatika.secureapi.security;
 import com.vatika.secureapi.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Service
-@RequiredArgsConstructor
 public class JwtService {
 
     private final SecretKey key;
     private final long expiryMillis;
+
+    public JwtService(@Value("${jwt.secret}") String secret,
+                      @Value("${jwt.expiry-minutes}") long expiryMinutes) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expiryMillis = expiryMinutes * 60 * 1000;
+    }
 
     public String generate(User user) {
         Date now = new Date();
