@@ -30,6 +30,7 @@ public class OrderController {
     @Cacheable(value = "orders", key = "#authentication.name")
     @GetMapping("/orders")
     public List<Order> getOrders(Authentication authentication) {
+        System.out.println("hit controller");
         boolean staff = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_STAFF"));
         if (staff) {

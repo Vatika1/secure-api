@@ -10,6 +10,8 @@ server:
     trust-store-password: changeit
 
 spring:
+  cache:
+    type: caffeine
   application:
     name: secure-api
   datasource:
